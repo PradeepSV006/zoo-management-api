@@ -1,4 +1,6 @@
 ﻿
+using Zoo.Common.Models;
+
 namespace Zoo.Common.Helper
 {
     /// <summary>
@@ -6,5 +8,7 @@ namespace Zoo.Common.Helper
     /// </summary>
     public interface IParseHelper
     {
+        Species ParseCsvLine(string line);
+        void ParseTxtLine(string line, out string food, out decimal foodRate);
     }
 }

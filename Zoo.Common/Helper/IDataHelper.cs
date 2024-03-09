@@ -7,7 +7,7 @@ namespace Zoo.Common.Helper
     /// </summary>
     public interface IDataHelper
     {
-        List<Animal> LoadAnimals();
+        List<Species> LoadSpecies();
         Dictionary<string, decimal> LoadPrices();
         List<Animal> LoadZooAnimals();
     }
