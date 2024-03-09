@@ -1,4 +1,6 @@
 ﻿
+using Zoo.Common.DTOs;
+
 namespace Zoo.Core.Interfaces
 {
     /// <summary>
@@ -6,7 +8,7 @@ namespace Zoo.Core.Interfaces
     /// </summary>
     public interface IZooService
     {
-        decimal CalculateCost(int numDays);
+        Task<CostResponseDto> CalculateCostAsync(int numDays);
 
     }
 }

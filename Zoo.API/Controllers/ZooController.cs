@@ -17,10 +17,9 @@ namespace Zoo.API.Controllers
         }
 
         [HttpGet("cost")]
-        public IActionResult CalculateCost(int numDays)
+        public async Task<IActionResult> GetCostAsync(int numDays)
         {
-            decimal cost = _zooService.CalculateCost(numDays);
-            return Ok(new { Cost = cost });
+            return Ok(await _zooService.CalculateCostAsync(numDays));
         }
     }
 }

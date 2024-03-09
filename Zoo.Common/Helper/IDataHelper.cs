@@ -7,8 +7,8 @@ namespace Zoo.Common.Helper
     /// </summary>
     public interface IDataHelper
     {
-        List<Species> LoadSpecies();
-        Dictionary<string, decimal> LoadPrices();
-        List<Animal> LoadZooAnimals();
+        Task<List<Species>> LoadSpeciesAsync();
+        Task<Dictionary<string, decimal>> LoadPricesAsync();
+        Task<List<Animal>> LoadZooAnimalsAsync();
     }
 }
