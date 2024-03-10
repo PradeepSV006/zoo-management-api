@@ -9,8 +9,6 @@ namespace Zoo.Common.Helper
     {
         public Species ParseCsvLine(string line)
         {
-            try
-            {
                 var parts = line.Split(',');
                 Species species = new Species
                 {
@@ -30,34 +28,13 @@ namespace Zoo.Common.Helper
                 }
 
                 return species;
-            }
-            catch (FormatException e)
-            {
-                throw;
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-            
         }
 
         public void ParseTxtLine(string line, out string food, out decimal foodRate)
         {
-            try
-            {
                 var parts = line.Split('=');
                 food = parts[0].ToLower();
                 foodRate = decimal.Parse(parts[1]);
-            }
-            catch (FormatException e)
-            {
-                throw;
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
         }
 
     }

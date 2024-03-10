@@ -1,4 +1,6 @@
-﻿using Zoo.Common;
+﻿using Microsoft.Extensions.Logging;
+using Zoo.Common;
+using Zoo.Common.CustomExceptions;
 using Zoo.Common.DTOs;
 using Zoo.Common.Helper;
 using Zoo.Common.Models;
@@ -12,10 +14,12 @@ namespace Zoo.Core.Implementations
     public class ZooService : IZooService
     {
         private readonly IDataHelper _dataHelper;
+        private readonly ILogger<ZooService> _logger;
 
-        public ZooService(IDataHelper dataHelper)
+        public ZooService(IDataHelper dataHelper, ILogger<ZooService> logger)
         {
             _dataHelper = dataHelper;
+            _logger = logger;
         }
 
         /// <summary>
@@ -25,15 +29,29 @@ namespace Zoo.Core.Implementations
         /// <returns>The total cost of feeding the animals in the zoo for the specified number of days.</returns>
         public async Task<CostResponseDto> CalculateCostAsync(int numDays)
         {
-            var zooAnimals = await _dataHelper.LoadZooAnimalsAsync();
-            var prices = await _dataHelper.LoadPricesAsync();
-
-            decimal foodCostPerDay = CalculateFoodCostPerDay(zooAnimals, prices);
-
-            return new CostResponseDto
+            try
             {
-                Cost = foodCostPerDay * numDays
-            };
+                var zooAnimals = await _dataHelper.LoadZooAnimalsAsync();
+                var prices = await _dataHelper.LoadPricesAsync();
+
+                decimal foodCostPerDay = CalculateFoodCostPerDay(zooAnimals, prices);
+
+                return new CostResponseDto
+                {
+                    Cost = foodCostPerDay * numDays
+                };
+            }
+            catch (DataLoadException ex)
+            {
+                _logger.LogError(ex,ex.Message);
+                throw new DataLoadException("An error occurred while calculating the cost. Please try again later.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An unexpected error occurred while calculating the cost of feeding the animals.");
+                throw;
+            }
+
 
         }
 
@@ -60,7 +78,8 @@ namespace Zoo.Core.Implementations
                     decimal fruitCost = prices[Constants.Fruit] * animal.Species.FoodRate * animal.Weight * (1 - animal.Species.MeatPercentage);
                     return meatCost + fruitCost;
                 default:
-                    throw new ArgumentException($"Unsupported animal type: {animal.Species.Type}");
+                    _logger.LogError($"Unsupported animal type: {animal.Species.Type}");
+                    throw new DataLoadException($"Unsupported animal type: {animal.Species.Type}");
             }
         }
     }

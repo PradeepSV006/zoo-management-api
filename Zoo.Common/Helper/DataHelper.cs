@@ -1,6 +1,7 @@
 ﻿using System.Xml;
 using System.Xml.Linq;
 using Zoo.Common.Configuration;
+using Zoo.Common.CustomExceptions;
 using Zoo.Common.Models;
 
 namespace Zoo.Common.Helper
@@ -12,6 +13,7 @@ namespace Zoo.Common.Helper
     {
         private readonly IConfigProvider _configProvider;
         private readonly IParseHelper _parseHelper;
+
 
         public DataHelper(IConfigProvider configProvider, IParseHelper parseHelper)
         {
@@ -43,13 +45,13 @@ namespace Zoo.Common.Helper
             }
             catch (FileNotFoundException e)
             {
-                throw;
+                throw new DataLoadException($"An error occurred while loading zoo species: {_configProvider.AnimalsCsvPath}");
             }
             catch (FormatException e)
             {
-                throw;
+                throw new DataLoadException($"An error occurred while parsing zoo species from: {_configProvider.AnimalsCsvPath}");
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }
@@ -82,13 +84,13 @@ namespace Zoo.Common.Helper
 
             catch (FileNotFoundException e)
             {
-                throw;
+                throw new DataLoadException($"An error occurred while loading zoo species: {_configProvider.PricesTxtPath}");
             }
             catch (FormatException e)
             {
-                throw;
+                throw new DataLoadException($"An error occurred while parsing zoo species from: {_configProvider.PricesTxtPath}");
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }
@@ -125,22 +127,21 @@ namespace Zoo.Common.Helper
             }
             catch (FileNotFoundException e)
             {
-                throw;
+                throw new DataLoadException($"An error occurred while loading zoo species: {_configProvider.ZooXmlPath}");
             }
             catch (FormatException e)
             {
-                throw;
+                throw new DataLoadException($"An error occurred while parsing zoo species from: {_configProvider.ZooXmlPath}");
             }
-
             catch (XmlException e)
             {
-                throw;
+                throw new DataLoadException($"An error occurred while parsing the xml from: {_configProvider.ZooXmlPath}");
             }
-
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }
+            
         }
     }
 }

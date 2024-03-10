@@ -8,16 +8,11 @@ namespace Zoo.API.Filters
     {
         public override void OnException(ExceptionContext context)
         {
-            LogException(context.Exception);
             context.Result = new ObjectResult(context.Exception.Message)
             {
                 StatusCode = (int)HttpStatusCode.InternalServerError
             };
-        }
-
-        private void LogException(Exception exception)
-        {
-            Console.WriteLine($"Exception logged: {exception.Message}");
+            context.ExceptionHandled = true;
         }
     }
 }
