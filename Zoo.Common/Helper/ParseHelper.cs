@@ -7,6 +7,12 @@ namespace Zoo.Common.Helper
     /// </summary>
     public class ParseHelper : IParseHelper
     {
+        /// <summary>
+        /// Parses a single line from a CSV file and creates a Species object.
+        /// The line is expected to be in the format: "Name,FoodRate,Type[,MeatPercentage]".
+        /// </summary>
+        /// <param name="line">A line of data in CSV format.</param>
+        /// <returns>A Species object representing the parsed data.</returns>
         public Species ParseCsvLine(string line)
         {
                 var parts = line.Split(',');
@@ -30,6 +36,13 @@ namespace Zoo.Common.Helper
                 return species;
         }
 
+        /// <summary>
+        /// Parses a single line from a TXT file and extracts the food type and its corresponding rate.
+        /// The line is expected to be in the format: "food=rate".
+        /// </summary>
+        /// <param name="line">A line of data in TXT format (key-value pair separated by '=').</param>
+        /// <param name="food">The parsed food type (output parameter).</param>
+        /// <param name="foodRate">The parsed food rate as a decimal (output parameter).</param>
         public void ParseTxtLine(string line, out string food, out decimal foodRate)
         {
                 var parts = line.Split('=');

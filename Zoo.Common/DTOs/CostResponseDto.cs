@@ -6,6 +6,9 @@ namespace Zoo.Common.DTOs
     /// </summary>
     public class CostResponseDto
     {
+        /// <summary>
+        /// Represents the Cost needed to feed the animals for 'n' days.
+        /// </summary>
         public decimal Cost { get; set; }
     }
 }

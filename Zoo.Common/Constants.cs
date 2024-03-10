@@ -1,6 +1,9 @@
 ﻿
 namespace Zoo.Common
 {
+    /// <summary>
+    /// Holds constants that are used acorss the solution.
+    /// </summary>
     public static class Constants
     {
         public const string Meat = "meat";
